@@ -8,12 +8,50 @@
 <main>
 	<article>
 
-	<?php
-	
-		echo "<p>Tak można odczytać moment udzielenia przez serwer odpowiedzi na żądanie HTTP:</p>";
-		echo date('Y-m-d H:i:s');
-		
-	?>
+    <?php
+
+function token($dlugosc = 10) {
+    $znaki = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $znakiDlugosc = strlen($znaki);
+    $randomString = '';
+    for ($i = 0; $i < $dlugosc; $i++) {
+        $randomString .= $znaki[rand(0, $znakiDlugosc - 1)];
+    }
+    return $randomString;
+}
+
+
+session_start();
+
+echo "<p>ID sesji: " . token(10) . "</p>";
+if (!isset($_SESSION["activity"])) {
+  
+    $_SESSION["activity"] = 1;
+    
+    
+} else {
+
+  
+    $_SESSION["activity"]++;
+}
+
+if(!isset($_SESSION["historia"]))
+{
+    $_SESSION["historia"] = [];
+
+}
+
+$tablica = "<p>Liczba odświeżeń podstrony: " . $_SESSION["activity"] . " Data i czas: " . date('Y-m-d H:i:s') . "</p>";
+$_SESSION["historia"][] = $tablica;
+
+foreach( $_SESSION["historia"] as $wartosc){
+echo $wartosc;
+}
+
+
+
+
+?>
 			
 	</article>
 </main>
